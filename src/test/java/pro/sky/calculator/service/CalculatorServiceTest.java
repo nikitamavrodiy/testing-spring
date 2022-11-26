@@ -13,7 +13,7 @@ public class CalculatorServiceTest {
 
     @BeforeEach
     public void setUp(){
-        num1 = 5;
+        num1 = 4;
         num2 = 0;
         calculatorService = new CalculatorService();
     }
