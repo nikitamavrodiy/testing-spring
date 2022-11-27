@@ -11,5 +11,5 @@ GET http://localhost:8080/calculator/minus?num1=5&num2=5
 GET http://localhost:8080/calculator/multiply?num1=5&num2=5
 
 ### Разделить num1 на num2
-GET http://localhost:8080/calculator/divide?num1=5&num2=5
+GET http://localhost:8080/calculator/divide?num1=5&num2=0
 
