@@ -1,48 +1,58 @@
 package pro.sky.calculator.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import java.util.List;
 
 public class CalculatorServiceTest {
-    private int num1;
-    private int num2;
-    private CalculatorService calculatorService;
+    private CalculatorService calculatorService = new CalculatorService();
 
-    @BeforeEach
-    public void setUp(){
-        num1 = 5;
-        num2 = 0;
-        calculatorService = new CalculatorService();
+    public static List<Arguments> plusTestSuites() {
+        return List.of(
+                Arguments.of(10, 5),
+                Arguments.of(-5, 6),
+                Arguments.of(6, 0)
+        );
     }
 
-    @Test
-    public void plusNotNull() {
-        assertNotNull(calculatorService.plus(num1, num2));
+    @ParameterizedTest
+    @MethodSource("plusTestSuites")
+    public void plusTest(int num1, int num2) {
+        int result = num1 + num2;
+        Assertions.assertEquals(result, calculatorService.plus(num1, num2));
+        System.out.printf("Всё верно, %d + %d = %d\n", num1, num2, result);
     }
 
-    @Test
-    public void minusNotNull() {
-        assertNotNull(calculatorService.minus(num1, num2));
+    @ParameterizedTest
+    @MethodSource("plusTestSuites")
+    public void minusTest(int num1, int num2) {
+        int result = num1 - num2;
+        Assertions.assertEquals(result, calculatorService.minus(num1, num2));
+        System.out.printf("Всё верно, %d - %d = %d\n", num1, num2, result);
     }
 
-    @Test
-    public void multiplyNotNull() {
-        assertNotNull(calculatorService.multiply(num1, num2));
+    @ParameterizedTest
+    @MethodSource("plusTestSuites")
+    public void multiplyTest(int num1, int num2) {
+        int result = num1 * num2;
+        Assertions.assertEquals(result, calculatorService.multiply(num1, num2));
+        System.out.printf("Всё верно, %d * %d = %d\n", num1, num2, result);
     }
 
-    @Test
-    public void divideNotNullException() {
-        if (num2 == 0) {
-            try {
-                assertNotNull(calculatorService.divide(num1, num2));
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
+    @ParameterizedTest
+    @MethodSource("plusTestSuites")
+    public void divideNotNullException(int num1, int num2) {
+        if (num2 != 0) {
+            int result = num1 / num2;
+            Assertions.assertEquals(result, calculatorService.divide(num1, num2));
+            System.out.printf("Всё верно, %d / %d = %d\n", num1, num2, result);
         } else {
-            assertNotNull(calculatorService.divide(num1, num2));
+            Assertions.assertThrows(IllegalArgumentException.class,
+                    () -> calculatorService.divide(num1, num2));
+            System.out.printf("Всё верно, деление на ноль (%d / %d) выбросит ошибку IllegalArgumentException\n", num1, num2);
         }
     }
 }
